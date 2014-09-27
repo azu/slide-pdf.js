@@ -10,10 +10,9 @@
 var url = './test/fixtures/slide.pdf';
 var PDFController = require("./lib/pdf-controller");
 var controller = new PDFController(document.getElementById("pdf-container"));
-controller.fitItSize();
 controller.loadDocument(url).then(function () {
-    document.getElementById('prev').addEventListener('click', controller.prevPage);
-    document.getElementById('next').addEventListener('click', controller.nextPage);
+    document.getElementById('prev').addEventListener('click', controller.prevPage.bind(controller));
+    document.getElementById('next').addEventListener('click', controller.nextPage.bind(controller));
 }).catch(function (error) {
     console.error(error);
 });
