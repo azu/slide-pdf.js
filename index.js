@@ -12,6 +12,14 @@ var PDFController = require("./lib/pdf-controller");
 var container = document.getElementById("pdf-container");
 var controller = new PDFController(container);
 
+function getCornerColor(context) {
+    var canvasColor = context.getImageData(0, 0, 1, 1);
+    var pixels = canvasColor.data;
+    var r = pixels[0];
+    var g = pixels[1];
+    var b = pixels[2];
+    return "rgb(" + r + ',' + g + ',' + b + ")";
+}
 controller.loadDocument(pdfURL).then(function () {
     document.getElementById('prev').addEventListener('click', controller.prevPage.bind(controller));
     document.getElementById('next').addEventListener('click', controller.nextPage.bind(controller));
@@ -19,10 +27,18 @@ controller.loadDocument(pdfURL).then(function () {
     console.error(error);
 });
 container.addEventListener(controller.events.before_pdf_rendering, function (event) {
-    controller.domMapObject.canvas.style.opacity = 0.2;
+    var context = controller.canvasContext;
+    var cornerColor = getCornerColor(context);
+    container.style.backgroundColor = cornerColor;
+    document.body.style.backgroundColor = cornerColor;
+    controller.domMapObject.canvas.style.display = "none";
 });
 container.addEventListener(controller.events.after_pdf_rendering, function (event) {
-    controller.domMapObject.canvas.style.opacity = 1.0;
+    var context = controller.canvasContext;
+    var cornerColor = getCornerColor(context);
+    container.style.backgroundColor = cornerColor;
+    document.body.style.backgroundColor = cornerColor;
+    controller.domMapObject.canvas.style.display = "";
 });
 
 document.onkeydown = function (event) {
@@ -34,7 +50,7 @@ document.onkeydown = function (event) {
         // left, down, H, J, backspace, PgUp - BACK
         event.preventDefault();
         controller.prevPage();
-    } else if (kc === 38 || kc === 39 || kc === 32 || kc === 75) {
+    } else if (kc === 38 || kc === 39 || kc === 32 || kc === 75 || kc === 76 || kc === 34) {
         // up, right, K, L, space, PgDn - FORWARD
         event.preventDefault();
         controller.nextPage();
