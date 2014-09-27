@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body {
+            font-family: arial, verdana, sans-serif;
+        }
+
+        /* Allow absolute positioning of the canvas and textLayer in the page. They
+           will be the same size and will be placed on top of each other. */
+        .pdfPage {
+            position: relative;
+            overflow: visible;
+            border: 1px solid #000000;
+        }
+
+        .pdf-page {
+            position: relative;
+
+        }
+
+        .pdfPage > canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        /* CSS classes used by TextLayerBuilder to style the text layer divs */
+
+        /* This stuff is important! Otherwise when you select the text,
+           the text in the divs will show up! */
+        ::selection {
+            background: rgba(0, 0, 255, 0.3);
+        }
+
+        ::-moz-selection {
+            background: rgba(0, 0, 255, 0.3);
+        }
+
+        .textLayer {
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            color: #000;
+            font-family: sans-serif;
+            overflow: hidden;
+        }
+
+        .textLayer > div {
+            color: transparent;
+            position: absolute;
+            line-height: 1;
+            white-space: pre;
+            cursor: text;
+        }
+
+        .annotationLayer a {
+            display: block;
+            position: absolute;
+            height: 100%;
+            width: 100%;
+        }
+
+        .annotationLayer a:hover {
+            opacity: 0.2;
+            background: #ff0;
+            box-shadow: 0 2px 10px #ff0;
+        }
+
+        /* your style */
+        .annotationLayer a {
+
+        }
+    </style>
+</head>
+<body>
+
+<h1>'Previous/Next' example</h1>
+
+<div>
+    <button id="prev">Previous</button>
+    <button id="next">Next</button>
+    &nbsp; &nbsp;
+    <span>Page: <span id="page_num"></span> / <span id="page_count"></span></span>
+</div>
+
+<div id="pdf-container" class="pdf-page">
+    <canvas id="the-canvas" style="border:1px solid black"></canvas>
+    <div class="textLayer"></div>
+    <div class="annotationLayer"></div>
+</div>
+
+<script src="node_modules/pdfjs-dist/build/pdf.js"></script>
+<script src="vendor/pdfjs/web/ui_utils.js"></script>
+<script src="vendor/pdfjs/web/text_layer_builder.js"></script>
+<script src="index.js"></script>
+
+</body>
+</html>
