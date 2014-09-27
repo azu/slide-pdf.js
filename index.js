@@ -7,40 +7,27 @@
 // If absolute URL from the remote server is provided, configure the CORS
 // header on that server.
 //
-var url = 'test/fixtures/document.pdf';
-
-
-//
-// Disable workers to avoid yet another cross-origin issue (workers need
-// the URL of the script to be loaded, and dynamically loading a cross-origin
-// script does not work).
-//
-// PDFJS.disableWorker = true;
-
-//
-// If pdf.js must be execute via eval or pdf.worker.js is located at the
-// different location that pdf.js, specify workerSrc.
-//
-// PDFJS.workerSrc = '../../build/pdf.worker.js';
+var url = 'test/fixtures/slide.pdf';
 
 var pdfDoc = null,
     pageNum = 1,
-    pageRendering = false,
-    pageNumPending = null,
-    scale = 0.8,
+    scale = 1,
     canvas = document.getElementById('the-canvas'),
     ctx = canvas.getContext('2d');
+var pdfContainer = document.getElementById("pdf-container");
 var textLayerDiv = document.querySelector("#pdf-container .textLayer");
 var annotationLayer = document.querySelector("#pdf-container .annotationLayer");
+var containerRect = pdfContainer.getBoundingClientRect();
+canvas.width = containerRect.width;
+canvas.height = containerRect.height;
 /**
  * Get page info from document, resize canvas accordingly, and render page.
  * @param num Page number.
  */
 function renderPage(num) {
-    pageRendering = true;
     // Using promise to fetch the page
     pdfDoc.getPage(num).then(function (page) {
-        var viewport = page.getViewport(scale);
+        var viewport = page.getViewport(canvas.width / page.getViewport(1.0).width);
         canvas.height = viewport.height;
         canvas.width = viewport.width;
         textLayerDiv.style.width = canvas.style.width;
@@ -51,14 +38,7 @@ function renderPage(num) {
             canvasContext: ctx,
             viewport: viewport
         };
-        var renderPromise = page.render(renderContext).promise.then(function () {
-            pageRendering = false;
-            if (pageNumPending !== null) {
-                // New page rendering is pending
-                renderPage(pageNumPending);
-                pageNumPending = null;
-            }
-        });
+        var renderPromise = page.render(renderContext).promise;
         var textLayerPromise = page.getTextContent().then(function (textContent) {
             var textLayerBuilder = new TextLayerBuilder({
                 textLayerDiv: textLayerDiv,
@@ -112,7 +92,6 @@ function setupAnnotations(page, viewport, annotationArea) {
                 // If you want to handle these links, see `web/page_view.js`.
                 continue;
             }
-            console.info("element", element);
             annotationArea.appendChild(element);
         }
     });
@@ -123,11 +102,7 @@ function setupAnnotations(page, viewport, annotationArea) {
  * finised. Otherwise, executes rendering immediately.
  */
 function queueRenderPage(num) {
-    if (pageRendering) {
-        pageNumPending = num;
-    } else {
-        renderPage(num);
-    }
+    renderPage(num);
 }
 
 /**
