@@ -62,7 +62,7 @@ window.addEventListener("resize", throttle(function (event) {
 }, 100));
 
 // swipe
-var hammertime = new Hammer(container);
+var hammertime = new Hammer(document.body);
 hammertime.on('swipeleft', function(event) {
     controller.nextPage();
 });
