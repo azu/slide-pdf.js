@@ -96,7 +96,11 @@ html, body {
   -o-transition: width 0.05s linear;
   transition: width 0.05s linear;
 }
-
+.left-bottom{
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+}
 // controller
 .controls {
   position: absolute;

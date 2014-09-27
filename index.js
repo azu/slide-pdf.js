@@ -31,14 +31,14 @@ container.addEventListener(controller.events.before_pdf_rendering, function (eve
     var cornerColor = getCornerColor(context);
     container.style.backgroundColor = cornerColor;
     document.body.style.backgroundColor = cornerColor;
-    controller.domMapObject.canvas.style.display = "none";
+    controller.domMapObject.canvas.style.visibility = "hidden";
 });
 container.addEventListener(controller.events.after_pdf_rendering, function (event) {
     var context = controller.canvasContext;
     var cornerColor = getCornerColor(context);
     container.style.backgroundColor = cornerColor;
     document.body.style.backgroundColor = cornerColor;
-    controller.domMapObject.canvas.style.display = "";
+    controller.domMapObject.canvas.style.visibility = "visible";
 });
 
 document.onkeydown = function (event) {
