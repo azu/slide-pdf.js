@@ -21,8 +21,8 @@ function getCornerColor(context) {
     return "rgb(" + r + ',' + g + ',' + b + ")";
 }
 controller.loadDocument(pdfURL).then(function () {
-    document.getElementById('prev').addEventListener('click', controller.prevPage.bind(controller));
-    document.getElementById('next').addEventListener('click', controller.nextPage.bind(controller));
+    document.getElementById('js-prev').addEventListener('click', controller.prevPage.bind(controller));
+    document.getElementById('js-next').addEventListener('click', controller.nextPage.bind(controller));
 }).catch(function (error) {
     console.error(error);
 });
