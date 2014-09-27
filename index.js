@@ -27,14 +27,14 @@ container.addEventListener(controller.events.after_pdf_rendering, function (even
 
 document.onkeydown = function (event) {
     var kc = event.keyCode;
-    if(event.shiftKey || event.ctrlKey || event.metaKey) {
+    if (event.shiftKey || event.ctrlKey || event.metaKey) {
         return;
     }
-    if (kc === 37 || kc === 40 || kc === 8 || kc === 72 || kc === 74 || kc === 33) {
+    if (kc === 37 || kc === 40 || kc === 8 || kc === 72) {
         // left, down, H, J, backspace, PgUp - BACK
         event.preventDefault();
         controller.prevPage();
-    } else if (kc === 38 || kc === 39 || kc === 32 || kc === 75 || kc === 76 || kc === 34) {
+    } else if (kc === 38 || kc === 39 || kc === 32 || kc === 75) {
         // up, right, K, L, space, PgDn - FORWARD
         event.preventDefault();
         controller.nextPage();
