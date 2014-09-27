@@ -91,10 +91,10 @@ html, body {
   width: 0;
   height: 8px;
   background-color: #44a4dd;
-  -webkit-transition: width 0.05s ease-out;
-  -moz-transition: width 0.05s ease-out;
-  -o-transition: width 0.05s ease-out;
-  transition: width 0.05s ease-out;
+  -webkit-transition: width 0.05s linear;
+  -moz-transition: width 0.05s linear;
+  -o-transition: width 0.05s linear;
+  transition: width 0.05s linear;
 }
 
 /* your style */
