@@ -15,6 +15,16 @@ controller.loadDocument(pdfURL).then(function () {
 }).catch(function (error) {
     console.error(error);
 });
+document.onkeydown = function (e) {
+    var kc = e.keyCode;
+    if (kc === 37 || kc === 40 || kc === 8 || kc === 72 || kc === 74 || kc === 33) {
+        // left, down, H, J, backspace, PgUp - BACK
+        controller.prevPage();
+    } else if (kc === 38 || kc === 39 || kc === 32 || kc === 75 || kc === 76 || kc === 34) {
+        // up, right, K, L, space, PgDn - FORWARD
+        controller.nextPage();
+    }
+};
 window.addEventListener("resize", throttle(function (event) {
     controller.fitItSize();
 }, 100));
