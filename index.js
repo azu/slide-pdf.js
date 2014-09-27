@@ -8,6 +8,7 @@ var throttle = require("lodash.throttle");
 
 var PDFController = require("./lib/pdf-controller");
 var controller = new PDFController(document.getElementById("pdf-container"));
+
 controller.loadDocument(pdfURL).then(function () {
     document.getElementById('prev').addEventListener('click', controller.prevPage.bind(controller));
     document.getElementById('next').addEventListener('click', controller.nextPage.bind(controller));
