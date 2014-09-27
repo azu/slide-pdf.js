@@ -60,3 +60,14 @@ document.onkeydown = function (event) {
 window.addEventListener("resize", throttle(function (event) {
     controller.fitItSize();
 }, 100));
+
+// swipe
+var hammertime = new Hammer(container);
+hammertime.on('swipeleft', function(event) {
+    controller.nextPage();
+});
+
+hammertime.on('swiperight', function(event) {
+    controller.prevPage();
+
+});
