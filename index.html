@@ -70,10 +70,12 @@
             background: #ff0;
             box-shadow: 0 2px 10px #ff0;
         }
-        #the-canvas {
+
+        #pdf-canvas {
             width: 100%;
             height: 100%;
         }
+
         /* your style */
         .annotationLayer a {
 
@@ -92,15 +94,12 @@
 </div>
 
 <div id="pdf-container" class="pdf-page">
-    <canvas id="the-canvas" style="border:1px solid black"></canvas>
-    <div class="textLayer"></div>
-    <div class="annotationLayer"></div>
 </div>
 
 <script src="node_modules/pdfjs-dist/build/pdf.js"></script>
 <script src="vendor/pdfjs/web/ui_utils.js"></script>
 <script src="vendor/pdfjs/web/text_layer_builder.js"></script>
-<script src="index.js"></script>
+<script src="build/app.js"></script>
 
 </body>
 </html>
