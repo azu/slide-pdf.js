@@ -47,7 +47,6 @@ function initializedEvent() {
     }, 100));
     document.onkeydown = function (event) {
         var kc = event.keyCode;
-        console.log(event.keyCode);
         if (event.shiftKey || event.ctrlKey || event.metaKey) {
             return;
         }
