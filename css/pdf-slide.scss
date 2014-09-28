@@ -52,9 +52,10 @@ html, body {
   position: absolute;
   line-height: 1;
   white-space: pre;
-  cursor: text;        body {
-  font-family: arial, verdana, sans-serif;
-}
+  cursor: text;
+  body {
+    font-family: arial, verdana, sans-serif;
+  }
 
   /* Allow absolute positioning of the canvas and textLayer in the page. They
      will be the same size and will be placed on top of each other. */
@@ -122,7 +123,7 @@ html, body {
   .pdf-canvas {
     width: 100%;
     height: 100%;
-    opacity :1;
+    opacity: 1;
     -webkit-transition: width 0.3s ease-in;
     -moz-transition: width 0.3s ease-in;
     -o-transition: width 0.3s ease-in;
@@ -237,4 +238,50 @@ html, body {
     cursor: pointer;
   }
 
+}
+// loading
+@-webkit-keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+.pdf-loading-hidden {
+  display: none;
+}
+.pdf-loading {
+  margin-top: -1rem;
+  margin-left: -1rem;
+  border: 1px solid #797673;
+  border-radius: 51%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4rem;
+  height: 4rem;
+  -webkit-animation: 1s linear infinite spin;
+  animation: 1s linear infinite spin;
+}
+
+.pdf-loading::before {
+  display: block;
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  content: "";
+  background-color: #fff;
 }

@@ -172,3 +172,41 @@ html, body {
   .controls .next:hover {
     border-left-color: #13DAEC;
     cursor: pointer; }
+
+@-webkit-keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg); }
+
+  to {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg); } }
+@keyframes spin {
+  from {
+    transform: rotate(0deg); }
+
+  to {
+    transform: rotate(360deg); } }
+.pdf-loading-hidden {
+  display: none; }
+
+.pdf-loading {
+  margin-top: -1rem;
+  margin-left: -1rem;
+  border: 1px solid #797673;
+  border-radius: 51%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4rem;
+  height: 4rem;
+  -webkit-animation: 1s linear infinite spin;
+  animation: 1s linear infinite spin; }
+
+.pdf-loading::before {
+  display: block;
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  content: "";
+  background-color: #fff; }

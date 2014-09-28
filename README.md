@@ -1,4 +1,4 @@
-# slide-pdf.js
+# slide-pdf.js [![Build Status](https://travis-ci.org/azu/slide-pdf.js.svg?branch=master)](https://travis-ci.org/azu/slide-pdf.js)
 
 Presentation tools for pdf file.
 

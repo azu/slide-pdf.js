@@ -12,6 +12,9 @@ var PDFController = require("./lib/pdf-controller");
 var container = document.getElementById("pdf-container");
 var controller = new PDFController(container);
 
+controller.loadDocument(pdfURL).then(initializedEvent).catch(function (error) {
+    console.error(error);
+});
 function getCornerColor(context) {
     var canvasColor = context.getImageData(0, 0, 1, 1);
     var pixels = canvasColor.data;
@@ -20,9 +23,7 @@ function getCornerColor(context) {
     var b = pixels[2];
     return "rgb(" + r + ',' + g + ',' + b + ")";
 }
-controller.loadDocument(pdfURL).then(initializedEvent).catch(function (error) {
-    console.error(error);
-});
+
 container.addEventListener(controller.events.before_pdf_rendering, function (event) {
     var context = controller.canvasContext;
     var cornerColor = getCornerColor(context);
