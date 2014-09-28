@@ -6,13 +6,18 @@ Show PDF slide using [pdf.js](https://github.com/mozilla/pdf.js "pdf.js").
 
 Example : [Deckset](http://decksetapp.com/ "Deckset for Mac: Turn your notes into beautiful presentations"), Power Point and Keynote.
 
+## Usage
+
+http://azu.github.io/slide-pdf.js/?slide=test/fixtures/sourcemap.pdf
+
+e.g.) http://azu.github.io/slide-pdf.js/?slide=<PDF URL>
+
+Please be careful for CORS
+
 ## Installation
 
 - [ ] Describe the installation process
 
-## Usage
-
-- [ ] Write usage instructions
 
 ## Contributing
 
