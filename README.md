@@ -12,12 +12,16 @@ http://azu.github.io/slide-pdf.js/?slide=test/fixtures/sourcemap.pdf
 
 e.g.) http://azu.github.io/slide-pdf.js/?slide=<PDF URL>
 
-Please be careful for CORS
+Please be careful for [Cross-origin resource sharing (CORS)](http://en.wikipedia.org/wiki/Cross-origin_resource_sharing "Cross-origin resource sharing (CORS)").
 
-## Installation
+## Quick start
 
-- [ ] Describe the installation process
+```
+git clone https://github.com/azu/slide-pdf.js.git
+git push your_repo 
+```
 
+Use generator : [azu/pdf-slide-html](https://github.com/azu/pdf-slide-html "azu/pdf-slide-html")
 
 ## Contributing
 
