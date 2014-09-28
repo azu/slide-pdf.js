@@ -4,7 +4,7 @@ build:
   # The steps that will be executed on build
   steps:
     - npm-install
-    - npm install -g bower
+    - sudo npm install -g bower
     - bower install
     - npm-test
 
