@@ -1,8 +1,11 @@
 language: node_js
 node_js:
-- '0.11'
 - '0.10'
-script: "npm run build"
+before_script:
+  - npm install -g bower
+  - bower install
+script:
+  - "npm run build"
 after_success: "./_travis/deploy-to-ghpages.sh"
 env:
   global:
