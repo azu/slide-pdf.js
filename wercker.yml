@@ -5,10 +5,10 @@ build:
   steps:
     - npm-install
     - script:
-      name: install bower
-      code: |
-        sudo npm install -g bower
-        bower install
+        name: install bower
+        code: |
+          sudo npm install -g bower
+          bower install
     - npm-test
 
     # A custom script step, name value is used in the UI
