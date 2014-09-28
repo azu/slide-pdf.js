@@ -4,8 +4,11 @@ build:
   # The steps that will be executed on build
   steps:
     - npm-install
-    - sudo npm install -g bower
-    - bower install
+    - script:
+      name: install bower
+      code: |
+        sudo npm install -g bower
+        bower install
     - npm-test
 
     # A custom script step, name value is used in the UI
