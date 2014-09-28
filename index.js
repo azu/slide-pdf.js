@@ -63,13 +63,16 @@ function initializedEvent() {
 
     };
     // swipe
-    var fingers = new Fingers(document.body);
-    var swipeGesture = fingers.addGesture(Fingers.gesture.Swipe);
-    swipeGesture.addHandler(function (type, data, fingers) {
-        if (data.direction === "left") {
-            controller.nextPage();
-        } else if (data.direction === "right") {
-            controller.prevPage();
-        }
-    });
+    if (Fingers.Instance.IS_MOBILE) {
+        var fingers = new Fingers(document.body);
+        var swipeGesture = fingers.addGesture(Fingers.gesture.Swipe);
+        swipeGesture.addHandler(function (type, data, fingers) {
+            if (data.direction === "left") {
+                controller.nextPage();
+            } else if (data.direction === "right") {
+                controller.prevPage();
+            }
+        });
+    }
 }
+
