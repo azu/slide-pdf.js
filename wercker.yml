@@ -15,6 +15,6 @@ build:
         code: npm run build
 deploy:
   steps:
-    - lukevivier/gh-pages:
+    - gh-pages:
         token: $GH_TOKEN
         basedir: ./
