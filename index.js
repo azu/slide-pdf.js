@@ -20,10 +20,7 @@ function getCornerColor(context) {
     var b = pixels[2];
     return "rgb(" + r + ',' + g + ',' + b + ")";
 }
-controller.loadDocument(pdfURL).then(function () {
-    document.getElementById('js-prev').addEventListener('click', controller.prevPage.bind(controller));
-    document.getElementById('js-next').addEventListener('click', controller.nextPage.bind(controller));
-}).catch(function (error) {
+controller.loadDocument(pdfURL).then(initializedEvent).catch(function (error) {
     console.error(error);
 });
 container.addEventListener(controller.events.before_pdf_rendering, function (event) {
@@ -41,33 +38,38 @@ container.addEventListener(controller.events.after_pdf_rendering, function (even
     controller.domMapObject.canvas.style.visibility = "visible";
 });
 
-document.onkeydown = function (event) {
-    var kc = event.keyCode;
-    if (event.shiftKey || event.ctrlKey || event.metaKey) {
-        return;
-    }
-    if (kc === 37 || kc === 40 || kc === 8 || kc === 72) {
-        // left, down, H, J, backspace, PgUp - BACK
-        event.preventDefault();
-        controller.prevPage();
-    } else if (kc === 38 || kc === 39 || kc === 32 || kc === 75 || kc === 76 || kc === 34) {
-        // up, right, K, L, space, PgDn - FORWARD
-        event.preventDefault();
+function initializedEvent() {
+    document.getElementById('js-prev').addEventListener('click', controller.prevPage.bind(controller));
+    document.getElementById('js-next').addEventListener('click', controller.nextPage.bind(controller));
+
+    window.addEventListener("resize", throttle(function (event) {
+        controller.fitItSize();
+    }, 100));
+    document.onkeydown = function (event) {
+        var kc = event.keyCode;
+        console.log(event.keyCode);
+        if (event.shiftKey || event.ctrlKey || event.metaKey) {
+            return;
+        }
+        if (kc === 37 || kc === 40 || kc === 75 || kc === 65) {
+            // left, down, K, A
+            event.preventDefault();
+            controller.prevPage();
+        } else if (kc === 38 || kc === 39 || kc === 74 || kc === 83) {
+            // up, right, J, S
+            event.preventDefault();
+            controller.nextPage();
+        }
+
+    };
+    // swipe
+    var hammertime = new Hammer(document.body);
+    hammertime.on('swipeleft', function (event) {
         controller.nextPage();
-    }
-};
+    });
 
-window.addEventListener("resize", throttle(function (event) {
-    controller.fitItSize();
-}, 100));
+    hammertime.on('swiperight', function (event) {
+        controller.prevPage();
 
-// swipe
-var hammertime = new Hammer(document.body);
-hammertime.on('swipeleft', function(event) {
-    controller.nextPage();
-});
-
-hammertime.on('swiperight', function(event) {
-    controller.prevPage();
-
-});
+    });
+}
