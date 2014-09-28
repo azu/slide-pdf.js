@@ -62,13 +62,13 @@ function initializedEvent() {
 
     };
     // swipe
-    var hammertime = new Hammer(document.body);
-    hammertime.on('swipeleft', function (event) {
-        controller.nextPage();
-    });
-
-    hammertime.on('swiperight', function (event) {
-        controller.prevPage();
-
+    var fingers = new Fingers(document.body);
+    var swipeGesture = fingers.addGesture(Fingers.gesture.Swipe);
+    swipeGesture.addHandler(function (type, data, fingers) {
+        if (data.direction === "left") {
+            controller.nextPage();
+        } else if (data.direction === "right") {
+            controller.prevPage();
+        }
     });
 }
