@@ -4,8 +4,8 @@
  */
 "use strict";
 var query = require("querystring").parse(location.search.slice(1));
-if(query.slide == null) {
-    return alert("Please URL: ?slide=<PDF URL>")
+if (query.slide == null) {
+    alert("Please URL: ?slide=<PDF URL>");
 }
 var pdfURL = query.slide;
 var throttle = require("lodash.throttle");
