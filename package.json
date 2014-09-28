@@ -9,7 +9,7 @@
   },
   "main": "index.js",
   "scripts": {
-    "build": "browserify -t brfs index.js -o build/app.js",
+    "build": "mkdir -p build && browserify -t brfs index.js -o build/app.js",
     "watch": "watchify -d -t brfs index.js -o build/app.js",
     "test": "mocha test/*.js"
   },
