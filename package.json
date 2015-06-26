@@ -11,7 +11,7 @@
   "scripts": {
     "build": "mkdir -p build && browserify -t brfs index.js -o build/app.js",
     "watch": "watchify -d -t brfs index.js -o build/app.js",
-    "test": "mocha test/*.js"
+    "test": "mocha test"
   },
   "directories": {
     "test": "test/"
@@ -23,16 +23,16 @@
   },
   "dependencies": {
     "brfs": "^1.2.0",
-    "custom-event-polyfill": "^0.1.2",
+    "custom-event-polyfill": "^0.2.1",
     "domify": "^1.3.1",
     "fingers.js": "git://github.com/paztis/fingers.js",
-    "lodash.throttle": "^2.4.1",
+    "lodash.throttle": "^3.0.3",
     "pdf.js": "git://github.com/mozilla/pdf.js",
     "pdfjs-dist": "^1.0.837"
   },
   "devDependencies": {
-    "browserify": "^5.12.0",
+    "browserify": "^10.2.4",
     "browserify-shim": "^3.7.0",
-    "watchify": "^1.0.3"
+    "watchify": "^3.2.3"
   }
 }
