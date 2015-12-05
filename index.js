@@ -9,7 +9,7 @@ var PDFController = require("pdf.js-controller");
 var container = document.getElementById("pdf-container");
 var controller = new PDFController({
     container: container,
-    pdfDistDir: __dirname + "/node_modules/pdfjs-dist/"
+    pdfjsDistDir: __dirname + "/node_modules/pdfjs-dist/"
 });
 
 controller.loadDocument(pdfURL).then(initializedEvent).catch(function (error) {
