@@ -1,7 +1,3 @@
-/**
- * Created by azu on 2014/09/24.
- * LICENSE : MIT
- */
 "use strict";
 var query = require("querystring").parse(location.search.slice(1));
 if (query.slide == null) {
@@ -9,12 +5,12 @@ if (query.slide == null) {
 }
 var pdfURL = query.slide;
 var throttle = require("lodash.throttle");
-// define lang
-PDFJS.cMapUrl = "../cmaps/";
-PDFJS.cMapPacked = true;
-var PDFController = require("./lib/pdf-controller");
+var PDFController = require("pdf.js-controller");
 var container = document.getElementById("pdf-container");
-var controller = new PDFController(container);
+var controller = new PDFController({
+    container: container,
+    pdfDistDir: __dirname + "/node_modules/pdfjs-dist/"
+});
 
 controller.loadDocument(pdfURL).then(initializedEvent).catch(function (error) {
     console.error(error);
@@ -28,14 +24,14 @@ function getCornerColor(context) {
     return "rgb(" + r + ',' + g + ',' + b + ")";
 }
 
-container.addEventListener(controller.events.before_pdf_rendering, function (event) {
+container.addEventListener(PDFController.Events.before_pdf_rendering, function (event) {
     var context = controller.canvasContext;
     var cornerColor = getCornerColor(context);
     container.style.backgroundColor = cornerColor;
     document.body.style.backgroundColor = cornerColor;
     controller.domMapObject.canvas.style.visibility = "hidden";
 });
-container.addEventListener(controller.events.after_pdf_rendering, function (event) {
+container.addEventListener(PDFController.Events.after_pdf_rendering, function (event) {
     var context = controller.canvasContext;
     var cornerColor = getCornerColor(context);
     container.style.backgroundColor = cornerColor;

@@ -9,8 +9,8 @@
   },
   "main": "index.js",
   "scripts": {
-    "build": "mkdir -p build && browserify -t brfs index.js -o build/app.js",
-    "watch": "watchify -d -t brfs index.js -o build/app.js",
+    "build": "mkdir -p build && browserify index.js -o build/app.js",
+    "watch": "watchify -d index.js -o build/app.js",
     "test": "mocha test"
   },
   "directories": {
@@ -28,6 +28,7 @@
     "fingers.js": "git://github.com/paztis/fingers.js",
     "lodash.throttle": "^3.0.3",
     "pdf.js": "git://github.com/mozilla/pdf.js",
+    "pdf.js-controller": "^1.0.1",
     "pdfjs-dist": "^1.0.837"
   },
   "devDependencies": {
