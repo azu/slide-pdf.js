@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+
+    <META http-equiv="Cache-Control" content="no-cache">
+    <META http-equiv="Pragma" content="no-cache">
+    <META http-equiv="Expires" content="0">
+
+    <title>Drag and Transform</title>
+    <script src="../../fingers.js"></script>
+    <style>
+        .box {
+            position: absolute;
+            width: 200px; height: 300px;
+            color: #FFF;
+            text-align: center;
+            line-height: 321px;
+        }
+    </style>
+    <script>
+
+        function createBox(pLabel, pBgColor) {
+            var divE = document.createElement("div");
+            divE.className = "box";
+            divE.style.backgroundColor = pBgColor;
+            divE.innerHTML = pLabel;
+
+            document.body.appendChild(divE);
+            return {
+                element: divE,
+                isUpdated: true,
+                x: Math.random() * (window.innerWidth - 200),
+                y: Math.random() * (window.innerHeight - 300),
+                rad: Math.random()*Math.PI * 2,
+                scale: 1,
+                rafId: 0,
+                zIndex: 0
+            }
+        }
+
+        function listen(pBoxO) {
+
+            var finger = new Fingers(pBoxO.element);
+            finger.addGesture(Fingers.gesture.Drag, null).addHandler(function(pEventType, pData, pFingers) {
+                if(pEventType === Fingers.Gesture.EVENT_TYPE.move) {
+                    pBoxO.x += pFingers[0].getDeltaX();
+                    pBoxO.y += pFingers[0].getDeltaY();
+                    pBoxO.isUpdated = true;
+                }
+                else if(pEventType === Fingers.Gesture.EVENT_TYPE.start) {
+                    topZIndex++;
+                    pBoxO.zIndex = topZIndex;
+                    pBoxO.isUpdated = true;
+                }
+            });
+            finger.addGesture(Fingers.gesture.Transform, null).addHandler(function(pEventType, pData, pFingers) {
+                if(pEventType === Fingers.Gesture.EVENT_TYPE.move) {
+                    pBoxO.rad += pData.deltaRotation;
+                    pBoxO.scale = Math.max(0.5, Math.min(2, pBoxO.scale * pData.deltaScale));
+                    pBoxO.isUpdated = true;
+                }
+            });
+        }
+
+        function transform(pBoxO) {
+            if(pBoxO.isUpdated) {
+                pBoxO.element.style[TRANSFORM_PREFIXED] = "translateZ(0) " +
+                        "translate(" + pBoxO.x + "px, " + pBoxO.y + "px) " +
+                        "scale(" + pBoxO.scale + ") " +
+                        "rotate(" + pBoxO.rad + "rad) ";
+                pBoxO.element.style.zIndex = pBoxO.zIndex;
+                pBoxO.isUpdated = false;
+            }
+        }
+
+        function generateHexColor() {
+            return '#'+Math.random().toString(16).substr(-6);
+        }
+
+        function getVendorPrefixed(pArrayOfPrefixes) {
+            var result = null;
+            for (var i=0; i<pArrayOfPrefixes.length; i++) {
+                if (document.body.style[pArrayOfPrefixes[i]] !== undefined) {
+                    result = pArrayOfPrefixes[i];
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+
+        function loop() {
+            for(var i=0; i<boxListLength; i++) {
+                transform(boxList[i]);
+            }
+
+            requestAnimationFrame(loop);
+        }
+
+
+        //document.addEventListener('touchmove',function(event){event.preventDefault();});
+
+
+
+        var TRANSFORM_PREFIXED;
+        var boxList = [];
+        var boxListLength = 0;
+        var topZIndex = 0;
+
+
+        this.onload = function() {
+
+            TRANSFORM_PREFIXED = getVendorPrefixed(["transform", "msTransform", "MozTransform", "webkitTransform", "OTransform"]);
+
+            for(var i=0; i<10; i++) {
+                var boxO = createBox("box " + (i+1), generateHexColor());
+                boxList.push(boxO);
+
+                transform(boxO);
+            }
+
+            boxListLength = boxList.length;
+            for(var i=0; i<boxListLength; i++) {
+                listen(boxList[i]);
+            }
+
+            loop();
+        }
+
+
+    </script>
+</head>
+<body>
+</body>
+</html>

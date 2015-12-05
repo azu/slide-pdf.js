@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+
+    <META http-equiv="Cache-Control" content="no-cache">
+    <META http-equiv="Pragma" content="no-cache">
+    <META http-equiv="Expires" content="0">
+
+    <title>Raw</title>
+    <script src="../../fingers.js"></script>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        #instructions {
+            z-index: -1;
+            position: absolute;
+            top: 50%; left: 50%;
+            color: black;
+        }
+    </style>
+
+    <script>
+
+//        document.addEventListener('touchmove',function(event){event.preventDefault();});
+        COLOR_MAP = {};
+
+        this.onload = function() {
+            var canvas = document.getElementById('canvas');
+            var context = canvas.getContext('2d');
+
+            resizeCanvas(canvas);
+            listen(canvas, context);
+        };
+
+        function resizeCanvas(pCanvas) {
+
+            var resizeF = function() {
+                pCanvas.width = document.documentElement.clientWidth;
+                pCanvas.height = document.documentElement.clientHeight;
+            };
+
+            // resize the canvas to fill browser window dynamically
+            window.addEventListener('resize', resizeF, false);
+
+            resizeF();
+        }
+
+        function listen(pElement, pContext) {
+
+            var finger = new Fingers(pElement);
+            finger.addGesture(Fingers.gesture.Raw, null).addHandler(function(pEventType, pFinger) {
+                if(pEventType === Fingers.Gesture.EVENT_TYPE.move) {
+                    moveLine(pContext, pFinger);
+                }
+                else if(pEventType === Fingers.Gesture.EVENT_TYPE.start) {
+                    startLine(pContext, pFinger);
+                }
+                else if(pEventType === Fingers.Gesture.EVENT_TYPE.end) {
+                    endLine(pContext, pFinger);
+                }
+            });
+        }
+
+        function startLine(pContext, pFinger) {
+            var color = getFingerColor(pFinger);
+            pContext.beginPath();
+            // a circle at the start
+            pContext.arc(pFinger.getX(), pFinger.getY(), 10, 0,2*Math.PI, false);
+            pContext.fillStyle = color;
+            pContext.lineWidth = 8;
+            pContext.lineCap="round";
+            pContext.strokeStyle = color;
+            pContext.fill();
+        }
+
+        function moveLine(pContext, pFinger) {
+            var color = getFingerColor(pFinger);
+
+            pContext.beginPath();
+            pContext.moveTo(pFinger.previousP.x, pFinger.previousP.y);
+            pContext.lineTo(pFinger.getX(), pFinger.getY());
+            pContext.stroke();
+        }
+
+        function endLine(pContext, pFinger) {
+            var color = getFingerColor(pFinger);
+            pContext.fillRect(pFinger.getX()-10, pFinger.getY()-10, 20, 20);  // and a square at the end
+
+            deleteFingerColor(pFinger);
+        }
+
+        function getFingerColor(pFinger) {
+            if(!COLOR_MAP[pFinger.id]) {
+                COLOR_MAP[pFinger.id] = '#'+Math.random().toString(16).substr(-6);
+            }
+            return COLOR_MAP[pFinger.id];
+        }
+
+        function deleteFingerColor(pFinger) {
+            delete COLOR_MAP[pFinger.id];
+        }
+    </script>
+</head>
+<body>
+    <div id="instructions">Draw with all you fingers</div>
+    <canvas id="canvas">Your browser does not support canvas element.</canvas>
+</body>
+</html>

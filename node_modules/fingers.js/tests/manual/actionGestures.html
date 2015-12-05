@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+
+    <META http-equiv="Cache-Control" content="no-cache">
+    <META http-equiv="Pragma" content="no-cache">
+    <META http-equiv="Expires" content="0">
+
+    <title>Action gestures</title>
+    <script src="../../fingers.js"></script>
+    <style>
+        .testBox {
+            display: inline-block;
+            width: 300px; height: 200px;
+            margin: 20px;
+            background-color: black;
+            color: white;
+            text-align: center;
+            line-height: 200px;
+        }
+
+        .innerLabel {
+            display: inline-block;
+            line-height: normal;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+    <div id="testSwipe1" class="testBox"><div class="innerLabel">Swipe Me<br/>with 1 finger</div></div>
+    <div id="testSwipe2" class="testBox"><div class="innerLabel">Swipe Me<br/>with 2 fingers</div></div>
+    <div id="testSwipe3" class="testBox"><div class="innerLabel">Swipe Me<br/>with 3 fingers</div></div>
+    <div id="testPinch1" class="testBox"><div class="innerLabel">Pinch Me</div></div>
+    <div id="testHold1" class="testBox"><div class="innerLabel">Hold Me<br/>with 1 finger</div></div>
+    <div id="testHold2" class="testBox"><div class="innerLabel">Hold Me<br/>with 2 finger</div></div>
+    <div id="testTap1" class="testBox"><div class="innerLabel">Tap me many times<br/>with 1 finger</div></div>
+    <div id="testTap2" class="testBox"><div class="innerLabel">Tap me many times<br/>with 2 finger</div></div>
+    <script>
+
+
+        function listenSwipe(pElement, pLabelElement, pNbFingers) {
+
+            var finger = new Fingers(pElement);
+            finger.addGesture(Fingers.gesture.Swipe, {
+                nbFingers: pNbFingers
+            }).addHandler(function(pEventType, pData, pFingers) {
+                updateLabel(pLabelElement, "Swipe " + pData.direction + "<br/>Velocity: "+ pData.velocity.toFixed(2) + " px/ms");
+            });
+        }
+
+        function listenPinch(pElement, pLabelElement) {
+
+            var finger = new Fingers(pElement);
+            finger.addGesture(Fingers.gesture.Pinch, null).addHandler(function(pEventType, pData, pFingers) {
+                updateLabel(pLabelElement, "Pinch " + pData.grow + "<br/>Scale: "+ pData.scale.toFixed(2));
+            });
+        };
+
+        function listenHold(pElement, pLabelElement, pNbFingers) {
+
+            var finger = new Fingers(pElement);
+            finger.addGesture(Fingers.gesture.Hold, {
+                nbFingers: pNbFingers
+            }).addHandler(function(pEventType, pData, pFingers) {
+                updateLabel(pLabelElement, "Hold");
+            });
+        };
+
+        function listenTap(pElement, pLabelElement, pNbFingers) {
+
+            var finger = new Fingers(pElement);
+            finger.addGesture(Fingers.gesture.Tap, {
+                nbFingers: pNbFingers
+            }).addHandler(function(pEventType, pData, pFingers) {
+                updateLabel(pLabelElement, "Tap<br/>" + pData.nbTap + "x");
+            });
+        };
+
+        function updateLabel(pLabelElement, pNewLabel) {
+            clearTimeout(pLabelElement.__timeout__);
+            if(!pLabelElement.__originalLabel__) { pLabelElement.__originalLabel__ = pLabelElement.innerHTML; }
+
+            pLabelElement.innerHTML = pNewLabel;
+
+            pLabelElement.__timeout__ = setTimeout(function() {
+                pLabelElement.innerHTML = pLabelElement.__originalLabel__;
+            }, 2000);
+        }
+
+        var boxE = document.getElementById("testSwipe1");
+        listenSwipe(boxE, boxE.querySelector(".innerLabel"), 1);
+
+        boxE = document.getElementById("testSwipe2");
+        listenSwipe(boxE, boxE.querySelector(".innerLabel"), 2);
+
+        boxE = document.getElementById("testSwipe3");
+        listenSwipe(boxE, boxE.querySelector(".innerLabel"), 3);
+
+        boxE = document.getElementById("testPinch1");
+        listenPinch(boxE, boxE.querySelector(".innerLabel"));
+
+        boxE = document.getElementById("testHold1");
+        listenHold(boxE, boxE.querySelector(".innerLabel"), 1);
+
+        boxE = document.getElementById("testHold2");
+        listenHold(boxE, boxE.querySelector(".innerLabel"), 2);
+
+        boxE = document.getElementById("testTap1");
+        listenTap(boxE, boxE.querySelector(".innerLabel"), 1);
+
+        boxE = document.getElementById("testTap2");
+        listenTap(boxE, boxE.querySelector(".innerLabel"), 2);
+    </script>
+</body>
+</html>
