@@ -8,9 +8,9 @@ Example : [Deckset](http://decksetapp.com/ "Deckset for Mac: Turn your notes int
 
 ## Usage
 
-`http://azu.github.io/slide-pdf.js/?slide=<PDF URL>`
+`https://azu.github.io/slide-pdf.js/?slide=<PDF URL>`
 
-e.g.) http://azu.github.io/slide-pdf.js/?slide=test/fixtures/sourcemap.pdf
+e.g.) https://azu.github.io/slide-pdf.js/?slide=test/fixtures/sourcemap.pdf
 
 
 Please be careful for [Cross-origin resource sharing (CORS)](http://en.wikipedia.org/wiki/Cross-origin_resource_sharing "Cross-origin resource sharing (CORS)").
